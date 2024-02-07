@@ -1,0 +1,40 @@
+version: "3.7"
+
+services:
+  backend:
+    image: lilianandres/backend:1.0
+    environment:
+      - DATABASE_NAME=${DB_NAME}
+      - DATABASE_USER=${DB_USER}
+      - DATABASE_PASSWORD=${DB_PWD}
+      - DATABASE_HOST=database
+    networks:
+      - app-network
+    depends_on:
+      - database
+
+  database:
+    image: lilianandres/postgresql:1.0
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PWD}
+    volumes:
+      - /Users/lilian/datadir:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  httpd:
+    image: lilianandres/httpd:1.0
+    environment:
+      - BACKEND_HOST=backend
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    depends_on:
+      - database
+      - backend
+
+networks:
+  app-network:

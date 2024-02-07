@@ -1,0 +1,12 @@
+- name: Create the database container
+  docker_container:
+    name: "{{ DATABASE_HOST }}"
+    image: lilianandres/tp-devops-simple-database:latest
+    networks:
+      - name: "{{ NETWORK_NAME }}"
+    env:
+      POSTGRES_DB: "{{ DATABASE_NAME }}"
+      POSTGRES_USER: "{{ DATABASE_USER }}"
+      POSTGRES_PASSWORD: "{{ DATABASE_PASSWORD }}"
+    volumes:
+      - datavolume:/var/lib/postgresql/data

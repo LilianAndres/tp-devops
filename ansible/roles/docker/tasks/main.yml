@@ -1,0 +1,41 @@
+# Installer la dernière version du package device-mapper-persistent-data
+- name: Install device-mapper-persistent-data
+  yum:
+    name: device-mapper-persistent-data
+    state: latest
+
+# Installer la dernière version du package lvm2
+- name: Install lvm2
+  yum:
+    name: lvm2
+    state: latest
+
+# Ajouter le répository Docker au référentiel des paquets yum (cf. Docker CentOS)
+- name: add repo docker
+  command:
+    cmd: sudo yum-config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+
+# Installer Docker Community Edition
+- name: Install Docker
+  yum:
+    name: docker-ce
+    state: present # si ce n'est pas déjà présent dans le système cible
+
+# Installer Python 3
+- name: Install python3
+  yum:
+    name: python3
+    state: present # si ce n'est pas déjà présent dans le système cible
+
+# Installer le package Python 'docker'
+- name: Install docker with Python 3
+  pip:
+    name: docker
+    executable: pip3
+  vars:
+    ansible_python_interpreter: /usr/bin/python3 # indiquer à Ansible d'utiliser python3 pour l'interprétation
+
+# Vérifier que Docker tourne sur le système avec le module service
+- name: Make sure Docker is running
+  service: name=docker state=started # s'il n'est pas en cours d'exécution, Ansible le démarrera
+  tags: docker

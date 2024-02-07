@@ -1,0 +1,30 @@
+name: Ansible
+on:
+  workflow_run:
+    workflows: [CD devops 2024]
+    branches: [master]
+    types:
+      - completed
+
+jobs:
+  ansible-deployment:
+    runs-on: ubuntu-22.04
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.5.0
+      - name: Run Ansible playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          # Required, playbook filepath
+          playbook: playbook.yml
+          # Optional, directory where playbooks live
+          directory: ./ansible/
+          # Optional, SSH private key
+          key: ${{secrets.ANSIBLE_SSH_PRIVATE_KEY}}
+          # Optional, literal inventory file contents
+          inventory: |
+            [all]
+            lilian.andres.takima.cloud
+          options: |
+            -u${{secrets.ANSIBLE_USER}}

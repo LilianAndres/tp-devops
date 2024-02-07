@@ -1,0 +1,8 @@
+- name: Create the frontend container
+  docker_container:
+    name: front
+    image: lilianandres/tp-devops-front:latest
+    networks:
+      - name: "{{ NETWORK_NAME }}"
+    ports:
+      - "80:80"

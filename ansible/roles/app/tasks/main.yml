@@ -1,0 +1,11 @@
+- name: Create the app container
+  docker_container:
+    name: "{{ BACKEND_HOST }}"
+    image: lilianandres/tp-devops-simple-api:latest
+    networks:
+      - name: "{{ NETWORK_NAME }}"
+    env:
+      DATABASE_HOST: "{{ DATABASE_HOST }}"
+      DATABASE_NAME: "{{ DATABASE_NAME }}"
+      DATABASE_USER: "{{ DATABASE_USER }}"
+      DATABASE_PASSWORD: "{{ DATABASE_PASSWORD }}"

@@ -1,0 +1,10 @@
+- name: Create the proxy container
+  docker_container:
+    name: proxy
+    image: lilianandres/tp-devops-web-server:latest
+    networks:
+      - name: "{{ NETWORK_NAME }}"
+    env:
+      BACKEND_HOST: "{{ BACKEND_HOST }}"
+    ports:
+      - "8080:80"
