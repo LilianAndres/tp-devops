@@ -299,8 +299,6 @@ Après avoir récupéré le projet frontend, il faut ajouter un rôle front. Ce 
   docker_container:
     name: front
     image: lilianandres/tp-devops-front:latest
-    networks:
-      - name: "{{ NETWORK_NAME }}"
     ports:
       - "80:80" # on mappe le port 80 de l'hôte avec le port 80 du conteneur
 ```
