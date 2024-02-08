@@ -344,6 +344,55 @@ jobs:
             -u${{secrets.ANSIBLE_USER}}
 ```
 
-## Evolutions futures
+## Ansible Vault
 
-- Utiliser le Vault d'Ansible pour sécuriser les variables sensibles
+Ansible Vault nous permet de chiffrer certaines variables utilisées par Ansible afin de les sécuriser. Afin de mettre en place un Vault, j'ai d'abord lancé la commande suivante en spécifiant un mot de passe pour mon Vault :
+
+```shell
+ansible-vault create ansible-vault/vars/vault.yml
+```
+
+Esnuite, j'ai édité ce fichier avec la commande suivante...
+
+```shell
+ansible-vault edit ansible-vault/vars/vault.yml
+```
+
+...afin d'y placer mes variables sensibles au format suivant :
+
+```yaml
+# ansible-vault/vars/vault.yml
+
+VAULT_VARIABLE: "myvar"
+```
+
+Ces variables sont ensuite utilisables de manière globale dans les différents rôles de mon projet (exemple ci-dessous).
+
+```yml
+---
+# vars file for roles/app
+
+BACKEND_HOST: "{{ VAULT_BACKEND_HOST }}"
+NETWORK_NAME: "{{ VAULT_NETWORK_NAME }}"
+
+DATABASE_HOST: "{{ VAULT_DATABASE_HOST }}"
+DATABASE_NAME: "{{ VAULT_DATABASE_NAME }}"
+DATABASE_USER: "{{ VAULT_DATABASE_USER }}"
+DATABASE_PASSWORD: "{{ VAULT_DATABASE_PASSWORD }}"
+```
+
+```yml
+# ansible/roles/app/tasks/main.yml
+
+- name: Create the app container
+  docker_container:
+    name: "{{ BACKEND_HOST }}"
+    image: lilianandres/tp-devops-simple-api:latest
+    networks:
+      - name: "{{ NETWORK_NAME }}"
+    env:
+      DATABASE_HOST: "{{ DATABASE_HOST }}"
+      DATABASE_NAME: "{{ DATABASE_NAME }}"
+      DATABASE_USER: "{{ DATABASE_USER }}"
+      DATABASE_PASSWORD: "{{ DATABASE_PASSWORD }}"
+```
