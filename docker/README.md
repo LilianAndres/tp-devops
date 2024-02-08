@@ -18,6 +18,11 @@ docker run -d --network app-network -p 8082:8080 adminer
 docker run -d --network app-network -p 5432:5432 --name database lilianandres/database
 ```
 
+- `d`: détacher le conteneur du terminal (lancement en arrière-plan)
+- `--network`: placer le conteneur dans un réseau nommé
+- `-p`: mapper les ports exposés par le conteneur sur le host
+- `--name`: nommer le conteneur
+
 Afin de ne pas écrire le mot de passe de la base de données dans un fichier de configuration statique, nous pouvons le placer dans une variable d'environnement au lancement du conteneur.
 
 ```docker
@@ -27,6 +32,8 @@ docker run -d \
 -p 5432:5432 \
 --name database lilianandres/database
 ```
+
+- `-e`: fournir une variable d'environnement au conteneur
 
 Afin que la base de données soit initialisée avec une structure et de données, il faut ajouter des scripts d'initialisation dans le projet (cf dossier sql). Il faut également ajouter la ligne suivante dans le Dockerfile pour copier ces fichiers dans notre conteneur afin que ces derniers soient joués au montage du conteneur.
 
@@ -45,6 +52,10 @@ docker run -d \
 -v /Users/lilian/datadir:/var/lib/postgresql/data \
 --name database lilianandres/database
 ```
+
+- `-v`: attacher un volume physique de l'hôte au conteneur
+
+Il existe deux manières de créer des volumes : avec la commande `docker create volume <name>` ou en spécifiant un volume lors du démarrage d'un conteneur (comme dans l'exemple ci-dessus). En l'absence d'un chemin, Docker gérera lui-même l'endroit où il stocke le volume sur la machine hôte afin d'assurer la persistence des données.
 
 ## Backend
 
