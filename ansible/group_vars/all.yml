@@ -1,8 +1,0 @@
-# TODO: vault these variables
-
-NETWORK_NAME: app-network
-BACKEND_HOST: backend
-DATABASE_HOST: database
-DATABASE_NAME: db
-DATABASE_USER: usr
-DATABASE_PASSWORD: pwd

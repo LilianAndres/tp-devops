@@ -25,6 +25,9 @@ jobs:
           # Optional, literal inventory file contents
           inventory: |
             [all]
-            lilian.andres.takima.cloud
+            ${{secrets.SERVER_ADDRESS}}
+          # Optional, encrypted vault password, so we access the vault environment variables without any risque
+          vault_password: ${{secrets.VAULT_PASSWORD}}
           options: |
             -u${{secrets.ANSIBLE_USER}}
+            --verbose
