@@ -2,6 +2,9 @@
   gather_facts: false
   become: true
 
+  vars_files:
+    - ansible-vault/vars/vault.yml
+
   roles:
     - docker
     - network
