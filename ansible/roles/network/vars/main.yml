@@ -1,2 +1,4 @@
 ---
 # vars file for roles/network
+
+NETWORK_NAME: "{{ VAULT_NETWORK_NAME }}"

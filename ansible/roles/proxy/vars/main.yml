@@ -1,1 +1,6 @@
-# role proxy variables
+---
+# vars file for roles/proxy
+
+NETWORK_NAME: "{{ VAULT_NETWORK_NAME }}"
+
+BACKEND_HOST: "{{ VAULT_BACKEND_HOST }}"
